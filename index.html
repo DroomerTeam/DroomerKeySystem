@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Droomer Key System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rubik', sans-serif;
+      color: #fff;
+      height: 100vh;
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Background image layer */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url("https://t6.rbxcdn.com/180DAY-3de571ed1175636497776c44426b9765") center center / cover no-repeat;
+      filter: blur(5px) brightness(0.5);
+      z-index: -1;
+    }
+
+    .card {
+      background: rgba(38, 38, 38, 0.85);
+      border-radius: 20px;
+      padding: 40px;
+      box-shadow: 0 0 30px rgba(255, 0, 0, 0.2);
+      text-align: center;
+      width: 90%;
+      max-width: 500px;
+      animation: fadeIn 1s ease-out;
+      margin: auto;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    h2 {
+      font-weight: 600;
+      font-size: 26px;
+      margin-bottom: 30px;
+      color: #ff5555;
+    }
+
+    button {
+      display: inline-block;
+      padding: 12px 25px;
+      margin: 10px auto;
+      font-size: 16px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #ff0000, #cc0000);
+      color: white;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      width: 80%;
+      max-width: 300px;
+      box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
+      position: relative;
+    }
+
+    button:hover {
+      transform: translateY(-3px);
+      background: linear-gradient(135deg, #cc0000, #ff4444);
+      box-shadow: 0 8px 25px rgba(255, 0, 0, 0.4);
+    }
+
+    button:active {
+      transform: scale(0.97);
+    }
+
+    button:disabled {
+      background: #444;
+      cursor: not-allowed;
+      box-shadow: none;
+    }
+
+    #keyContainer {
+      margin-top: 30px;
+      display: none;
+      animation: fadeIn 0.5s ease-out;
+    }
+
+    #keyLabel {
+      font-size: 24px;
+      font-weight: bold;
+      background: #333;
+      padding: 12px 25px;
+      border-radius: 10px;
+      margin-bottom: 20px;
+      display: inline-block;
+      color: #00ff88;
+      letter-spacing: 1px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .counter {
+      font-size: 14px;
+      margin-top: 5px;
+      color: #ff8888;
+      animation: fadeIn 0.3s ease-in;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h2>🔑 Get Your Roblox Key</h2>
+    
+    <div>
+      <button id="step1Btn">Step 1: Subscribe to Droomer</button>
+      <div id="counter1" class="counter"></div>
+    </div>
+
+    <div>
+      <button id="step2Btn" style="display:none;">Step 2: Watch Promo Video</button>
+      <div id="counter2" class="counter"></div>
+    </div>
+
+    <button id="continueBtn" style="display:none;">✅ Continue</button>
+
+    <div id="keyContainer">
+      <div id="keyLabel"></div>
+      <button id="copyButton">📋 Copy Key</button>
+    </div>
+  </div>
+
+  <script>
+    const keys = [
+      "44Rmn9bYnp", "9jSH59i20Q", "5g6wzbnE8C", "PsE3aQD7md58", "wcZDGfX4MV78",
+      "c4F5lrP4Pfzi", "HB0d080xYll7", "qz2Wc3i34wY6", "Jdk6wu21AkPB", "X5a45iVEk0TA",
+      "41Zb1qs1Vy2a", "TuJjmO94G14o", "433wS4wWZqnN", "7gbe1T21fM4D", "HT1aZSd8fMY0",
+      "6Ms54wz8O4Sb", "QChD8Zy73xGN", "v53S8zasAG3z", "75cQdOu3FZGE", "Mw6124wOTffx",
+      "H46Sh9r9O0H5", "t22J0fqLZF6z", "8SnePU79YD5M", "Gc30E7NI8vpj", "Vs5ke077By",
+      "OtT9E481p3", "zA774i09Gk", "Wv58nW7OPA", "7l1SKx8QNw", "Zv04G9dwEi",
+      "3t9S5Cejhp", "WjI4S57bIg", "76hSo1p8CU", "M7ch96U56k", "b93Tm4Ts5T",
+      "Ck42lsE8Oa", "4vW96uavQx", "b3Sr6T14Jp", "vMOgY438lV", "8auJc0940K",
+      "oU7O90pxgo", "t4Gf85MJc6", "dE61k4duCa", "1Yn2m99Og9"
+    ];
+
+    const key = keys[Math.floor(Math.random() * keys.length)];
+    const step1Btn = document.getElementById("step1Btn");
+    const step2Btn = document.getElementById("step2Btn");
+    const continueBtn = document.getElementById("continueBtn");
+    const keyContainer = document.getElementById("keyContainer");
+    const keyLabel = document.getElementById("keyLabel");
+
+    const counter1 = document.getElementById("counter1");
+    const counter2 = document.getElementById("counter2");
+
+    function startCountdown(seconds, counterElem, callback) {
+      let count = seconds;
+      counterElem.textContent = `⏳ Please wait ${count}s...`;
+      const interval = setInterval(() => {
+        count--;
+        counterElem.textContent = `⏳ Please wait ${count}s...`;
+        if (count <= 0) {
+          clearInterval(interval);
+          counterElem.textContent = "✅ Step Completed";
+          callback();
+        }
+      }, 1000);
+    }
+
+    step1Btn.addEventListener("click", () => {
+      window.open("https://www.youtube.com/@DroomerTeam", "_blank");
+      step1Btn.disabled = true;
+      step1Btn.textContent = "⏳ Subscribing...";
+      startCountdown(10, counter1, () => {
+        step1Btn.textContent = "✅ Step Completed";
+        step2Btn.style.display = "inline-block";
+      });
+    });
+
+    step2Btn.addEventListener("click", () => {
+      window.open("https://www.youtube.com/watch?v=-BFDfdVzYF4", "_blank");
+      step2Btn.disabled = true;
+      step2Btn.textContent = "⏳ Watching...";
+      startCountdown(10, counter2, () => {
+        step2Btn.textContent = "✅ Step Completed";
+        continueBtn.style.display = "inline-block";
+      });
+    });
+
+    continueBtn.addEventListener("click", () => {
+      keyLabel.textContent = key;
+      keyContainer.style.display = "block";
+      continueBtn.style.display = "none";
+    });
+
+    document.getElementById("copyButton").addEventListener("click", () => {
+      navigator.clipboard.writeText(key).then(() => {
+        alert("✅ Key copied!");
+      });
+    });
+  </script>
+</body>
+</html>
