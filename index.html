@@ -11,17 +11,14 @@
       box-sizing: border-box;
     }
 
-    body {
+    body, html {
+      height: 100%;
       font-family: 'Rubik', sans-serif;
-      color: #fff;
-      height: 100vh;
       overflow: hidden;
-      position: relative;
     }
 
-    /* Background image layer */
-    body::before {
-      content: '';
+    /* ✅ Background as an actual element (not ::before) */
+    .background {
       position: fixed;
       top: 0;
       left: 0;
@@ -40,11 +37,12 @@
       text-align: center;
       width: 90%;
       max-width: 500px;
-      animation: fadeIn 1s ease-out;
       margin: auto;
       position: relative;
       top: 50%;
       transform: translateY(-50%);
+      animation: fadeIn 1s ease-out;
+      color: white;
     }
 
     h2 {
@@ -68,7 +66,6 @@
       width: 80%;
       max-width: 300px;
       box-shadow: 0 5px 15px rgba(255, 0, 0, 0.3);
-      position: relative;
     }
 
     button:hover {
@@ -105,20 +102,21 @@
       letter-spacing: 1px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
     .counter {
       font-size: 14px;
       margin-top: 5px;
       color: #ff8888;
-      animation: fadeIn 0.3s ease-in;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
+  <div class="background"></div> <!-- ✅ Reliable background -->
+
   <div class="card">
     <h2>🔑 Get Your Roblox Key</h2>
     
@@ -141,6 +139,31 @@
   </div>
 
   <script>
+    // Redirect if F12 or Ctrl+Shift+I/J/U is pressed
+  document.addEventListener("keydown", function(e) {
+    if (
+      e.key === "F12" ||
+      (e.ctrlKey && e.shiftKey && (e.key === "I" || e.key === "J" || e.key === "C" || e.key === "U"))
+    ) {
+      window.location.href = "https://bigrat.monster/";
+    }
+  });
+
+  // Detect DevTools open using object trick
+  let devtools = { open: false };
+  const threshold = 160;
+  setInterval(() => {
+    const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+    const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+    if (widthThreshold || heightThreshold) {
+      if (!devtools.open) {
+        devtools.open = true;
+        window.location.href = "https://bigrat.monster/";
+      }
+    } else {
+      devtools.open = false;
+    }
+  }, 500);
     const keys = [
       "44Rmn9bYnp", "9jSH59i20Q", "5g6wzbnE8C", "PsE3aQD7md58", "wcZDGfX4MV78",
       "c4F5lrP4Pfzi", "HB0d080xYll7", "qz2Wc3i34wY6", "Jdk6wu21AkPB", "X5a45iVEk0TA",
